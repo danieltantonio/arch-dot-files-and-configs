@@ -49,7 +49,7 @@ LINE=$(grep -n $LANG /etc/locale.gen | cut -d: -f1)
 pacman -Syy
 
 # Install latest Arch Linux KeyRing to avoid PGP errors
-pacman -S archlinux-keyring
+pacman -S archlinux-keyring --noconfirm
 
 # Refresh and update all packages
 pacman -Syyu --noconfirm
@@ -102,7 +102,10 @@ sed -i $(grep -n '%wheel ALL(ALL:ALL) = NOPASSWD: ALL' /etc/sudoers | cut -d: -f
 usermod -aG wheel $USERNAME
 
 # Set Passwords
+echo [ EDIT PASSWORD FOR \(\'root\'\) USER ]
 passwd
+
+echo [ EDIT PASSWORD FOR \(\'$USERNAME\'\) USER ]
 passwd $USERNAME
 
 
@@ -128,6 +131,7 @@ curl -s https://raw.githuberusercontent.com/linux-surface/linux-surface/master/p
 	| pacman-key --add -
 
 # Locally sign the fingerprint
+pacman-key --finger 56C464BAAC421453
 pacman-key --lsign-key 56C464BAAC421453
 
 # Add respository to Pacman
