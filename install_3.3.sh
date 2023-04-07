@@ -34,23 +34,28 @@ USERNAME='Daniel'
 HOSTNAME='Surface'
 EFI_PARTITION='nvme0n1p1'
 
-#!-- DO NOT CHANGE BELOW VARIABLE(s) --!#
+###!!! DO NOT CHANGE BELOW VARIABLE(s) !!!###
 LINE=$(grep -n $LANG /etc/locale.gen | cut -d: -f1)
-#!-- DO NOT CHANGE ABOVE VARIABLE(s) --!#
+###!!! DO NOT CHANGE ABOVE VARIABLE(s) !!!###
 
 ### END VARIABLES ###
-
 
 
 ###########################
 #   Installation Set Up   #
 ###########################
 
-# Refresh and update Pacman repository and metadata and update necessary packages
+# Refresh Pacman repository and metadata and update necessary packages
+pacman -Syy
+
+# Install latest Arch Linux KeyRing to avoid PGP errors
+pacman -S archlinux-keyring
+
+# Refresh and update all packages
 pacman -Syyu --noconfirm
 
 # Packages needed to finish Arch Linux Installation
-pacman -S man sudo nano grub efibootmgr dosfstools os-prober mtools networkmanager --noconfirm
+pacman -S man sudo grub efibootmgr dosfstools os-prober mtools networkmanager --noconfirm
 
 ##  Setting the Time Zone (3.3)  ##
 ln -sf /usr/share/zoneinfo/$REGION/$CITY/etc/localtime
@@ -69,11 +74,13 @@ echo '::1		localhost' >> /etc/hosts
 echo '127.0.1.1		'$HOSTNAME >> /etc/hosts
 
 ##  Boot Loader (3.8)  ##
+
 # Have EFI notice GRUB Bootloader and configure GRUB
 mkdir /boot/EFI
 mount /dev/$EFI_PARTITION /boot/EFI
 grub-install --target=x86_64-efi --bootloader-id=grub_uefi --efi-directory=/boot/EFI --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
+
 
 ################################
 #   Post Installation Set Up   #
@@ -98,9 +105,10 @@ usermod -aG wheel $USERNAME
 passwd
 passwd $USERNAME
 
-#############################################
-#!!! OPTIONAL FEEL FREE TO DELETE/MODIFY !!!#
-#############################################
+
+#######################################
+# OPTIONAL FEEL FREE TO DELETE/MODIFY #
+#######################################
 
 ## Install packages ##
 # NeoVim: Customizable Text Editor
@@ -140,6 +148,7 @@ pacman -S linux-surface-secureboot-mok
 # Configure GRUB to use Linux-Surface kernel
 grub-mkconfig -o /boot/grub/grub.cfg
 
+
 #############
 #   Reset   #
 #############
@@ -153,13 +162,14 @@ echo ''
 echo 'logout'
 echo 'unmount -l /mnt'
 echo ''
-echo '2. Restart the system and load into your newly installed Linux Operating System. Not the Installer.'
+echo '2. Restart the system and load into your newly installed Linux Operating System. Not the Installer/Live System.'
 echo ''
 echo '3. Log into the root user and follow the instructions under "FINAL (After-Reboot): Services To'
 echo 'Start/Enable, at the bottom of this script.'
 echo ''
 echo 'cat install.sh'
 echo ''
+
 
 ######################################################
 #   FINAL (After-Reboot): Services To Start/Enable   #
