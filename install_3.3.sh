@@ -119,10 +119,8 @@ passwd $USERNAME
 # gcc: Compiler for the C Programming language.
 # kiTTY: Terminal emulator.
 # Nautilus: GUI File Manager
-# Brave: Web Browser made by the father of JavaScript & Firefox. Unfortunately Brave is a fork of 
-# Chromium.
 
-pacman -S neovim neofetch gcc kitty nautilus brave openssh --noconfirm
+pacman -S neovim neofetch gcc kitty nautilus firefox openssh --noconfirm
 
 ##  Microsoft Surface Setup  ##
 
