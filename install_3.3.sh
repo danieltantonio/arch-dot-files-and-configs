@@ -125,7 +125,7 @@ pacman -S neovim neofetch gcc kitty nautilus firefox openssh --noconfirm
 ##  Microsoft Surface Setup  ##
 
 # Import keys Linux-Surface uses to sign packages.
-curl -s https://raw.githuberusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
+curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
 	| pacman-key --add -
 
 # Locally sign the fingerprint
