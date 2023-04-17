@@ -51,6 +51,9 @@ pacman -Syy
 # Install latest Arch Linux KeyRing to avoid PGP errors
 pacman -S archlinux-keyring --noconfirm
 
+# Install git
+pacman -S git --noconfirm
+
 # Refresh and update all packages
 pacman -Syyu --noconfirm
 
@@ -86,9 +89,19 @@ grub-mkconfig -o /boot/grub/grub.cfg
 #   Post Installation Set Up   #
 ################################
 
-# Install GUI, WM, and Lock Screen.
-pacman -S xorg-server xorg-xinit lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings i3-gaps \
-	i3status i3lock dmenu --noconfirm
+# Install SDDM Login-Manager for Wayland
+pacman -S sddm --noconfirm
+
+# Change directory to /root home directory
+cd ~
+
+# Clone `yay` AUR Package Helper, then install
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+# Install Hyprland Window Manager
+yay -aS --noconfirm hyprland-git --answerdiff=None
 
 # Create new user with user home directory at /home/$USERNAME
 useradd -m $USERNAME
@@ -102,9 +115,11 @@ sed -i $(grep -n '%wheel ALL(ALL:ALL) = NOPASSWD: ALL' /etc/sudoers | cut -d: -f
 usermod -aG wheel $USERNAME
 
 # Set Passwords
+clear
 echo [ EDIT PASSWORD FOR \(\'root\'\) USER ]
 passwd
 
+clear
 echo [ EDIT PASSWORD FOR \(\'$USERNAME\'\) USER ]
 passwd $USERNAME
 
@@ -145,7 +160,7 @@ pacman -S linux-surface linux-surface-headers iptsd --noconfirm
 
 # Secureboot Key. Will sign the Linux-Surface kernel into the bootloader.
 # Has to be installed on it's own since it comes with instructions
-pacman -S linux-surface-secureboot-mok
+pacman -S linux-surface-secureboot-mok --noconfirm
 
 # Configure GRUB to use Linux-Surface kernel
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -177,16 +192,16 @@ echo ''
 #   FINAL (After-Reboot): Services To Start/Enable   #
 ######################################################
 ## Use systemctl to tell systemd to enable installed services
-
-## Enable display manager
-# systemctl enable lightdm
+## `$` represents the commands you should be running within the terminal
 
 ## Enable NetworkManager
-# systemctl enable NetworkManager
+# $ systemctl enable NetworkManager
 
-## Enable touch screen
-# systemctl enable iptsd
+## Enable sddm Login Manager
+# $ systemctl enable sddm
 
+## Reboot system
+# $ reboot
 
 ########################
 #   You're all done.   #
