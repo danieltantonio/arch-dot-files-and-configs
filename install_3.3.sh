@@ -92,17 +92,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Install SDDM Login-Manager for Wayland
 pacman -S sddm --noconfirm
 
-# Change directory to /root home directory
-cd ~
-
-# Clone `yay` AUR Package Helper, then install
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-
-# Install Hyprland Window Manager
-yay -aS --noconfirm hyprland-git --answerdiff=None
-
 # Create new user with user home directory at /home/$USERNAME
 useradd -m $USERNAME
 
