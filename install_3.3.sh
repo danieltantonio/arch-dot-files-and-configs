@@ -89,9 +89,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 #   Post Installation Set Up   #
 ################################
 
-# Install SDDM Login-Manager for Wayland
-pacman -S sddm --noconfirm
-
 # Create new user with user home directory at /home/$USERNAME
 useradd -m $USERNAME
 
@@ -124,7 +121,7 @@ passwd $USERNAME
 # kiTTY: Terminal emulator.
 # Nautilus: GUI File Manager
 
-pacman -S neovim neofetch gcc kitty nautilus firefox openssh --noconfirm
+pacman -S neovim neofetch gcc kitty nautilus openssh --noconfirm
 
 ##  Microsoft Surface Setup  ##
 
