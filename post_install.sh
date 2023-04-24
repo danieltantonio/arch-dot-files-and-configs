@@ -1,26 +1,41 @@
 ### DO NOT BE ROOT WHILE RUNNING THIS SCRIPT ###
-
-# Make sure we are in user home directory
-cd ~
+# Enable NetworkManager and connect to internet first
+#
+# `$ systemctl enable NetworkManager`
+# `$ systemctl start NetworkManager`
+#
 
 # Install yay AUR package helper
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-# Install GUI, helpers, applications, and fonts
+# Create `home` directories
+mkdir ~/Pictures
+mkdir ~/Documents
+mkdir ~/Videos
+mkdir ~/Projects
+
+mkdir ~/Pictures/wallpapers
+
+# Install GUI, drivers, applications, and fonts
 # Taken from ChrisTitus :)
-yay -S hyprland-git polkit-gnome ffmpeg neovim viewnior rofi    \
-pavucontrol thunar starship wl-clipboard wf-recorder swaybg     \
-grimblast-git ffmpegthumbnailer tumbler playerctl               \
-noise-suppression-for-voice thunar-archive-plugin kitty         \
-waybar-hyprland-git wlogout swaylock-effects sddm-git pamixer   \
-nwg-look-bin nordic-theme papirus-icon-theme dunst otf-sora     \
-ttf-nerd-fonts-symbols-common otf-firamono-nerd inter-font      \
-ttf-fantasque-nerd noto-fonts noto-fonts-emoji ttf-comfortaa    \
-ttf-jetbrains-mono-nerd ttf-icomoon-feather ttf-iosevka-nerd    \
-adobe-source-code-pro-fonts brave-bin
+sudo ./pack_install/pack_install.sh
+
+# Move wallpaper to wallpapers folder
+mv wallhaven-j5rd55.png ~/Pictures/wallpapers
+
+# Move all config files to user home .config directory
+cp -r dotconfig/dunst/ ~/.config/
+cp -r dotconfig/hypr/ ~/.config/
+cp -r dotconfig/kitty/ ~/.config/
+cp -r dotconfig/pipewire/ ~/.config/
+cp -r dotconfig/rofi/ ~/.config/
+cp -r dotconfig/swaylock/ ~/.config/
+cp -r dotconfig/waybar/ ~/.config/
 
 # Enable services
-systemctl enable NetworkManager
 systemctl enable sddm
+
+# Reboot
+reboot
